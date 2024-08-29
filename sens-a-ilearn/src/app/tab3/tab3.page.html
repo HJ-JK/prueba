@@ -1,0 +1,36 @@
+<ion-header>
+	<ion-toolbar color="primary">
+		<ion-title>Login</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+	<!-- Formulario para el login, se ejecuta la función login() al enviarlo -->
+	<form (ngSubmit)="login()" [formGroup]="credentials">
+		<ion-item fill="solid" class="ion-margin-bottom">
+			<!-- Campo de entrada para el email -->
+			<ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+			<!-- Mensaje de error para el email, se muestra si el campo es inválido -->
+			<ion-note slot="error" *ngIf="email&&(email.dirty || email.touched) && email.errors" >
+				Email is invalid
+			</ion-note>
+		</ion-item>
+		<ion-item fill="solid" class="ion-margin-bottom">
+			<!-- Campo de entrada para la contraseña -->
+			<ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+			<!-- Mensaje de error para la contraseña, se muestra si es menor a 6 caracteres -->
+			<ion-note slot="error" *ngIf="password&&(password.dirty || password.touched) && password.errors">
+				Password needs to be 6 characters
+			</ion-note>
+		</ion-item>
+
+		<!-- Botón para enviar el formulario de login -->
+		<ion-button type="submit" expand="block" [disabled]="!credentials.valid">
+			Log in
+		</ion-button>
+		<!-- Botón para crear una nueva cuenta, ejecuta la función register() -->
+		<ion-button type="button" expand="block" color="secondary" (click)="register()">
+			Create account
+		</ion-button>
+	</form>
+</ion-content>

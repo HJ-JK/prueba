@@ -1,0 +1,19 @@
+.generated-text-card {
+    margin-top: 20px;
+    padding: 16px;
+    background-color: #f4f4f4; /* Color de fondo más claro para la tarjeta */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  }
+  
+  ion-card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333; /* Color del título */
+  }
+  
+  ion-card-content {
+    font-size: 1rem;
+    color: #555; /* Color del contenido del texto */
+    white-space: pre-wrap; /* Mantiene los saltos de línea y espacios */
+  }

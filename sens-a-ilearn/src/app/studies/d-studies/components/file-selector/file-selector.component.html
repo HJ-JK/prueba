@@ -1,0 +1,20 @@
+<ion-list>
+  <ng-container *ngFor="let file of files">
+    <!-- Si el elemento es una carpeta -->
+    <ion-item *ngIf="!file.isFile" (click)="toggleFolder(file)">
+      <ion-icon [name]="isFolderOpened(file) ? 'folder-open' : 'folder'" slot="start"></ion-icon>
+      <ion-label>{{ file.name }}</ion-label>
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    </ion-item>
+    <!-- Si el elemento es un archivo -->
+    <ion-item *ngIf="file.isFile" (click)="toggleFileSelection(file, $event)">
+      <ion-icon name="document" slot="start"></ion-icon>
+      <ion-label>{{ file.name }}</ion-label>
+      <ion-checkbox slot="end" [checked]="isFileSelected(file)"></ion-checkbox>
+    </ion-item>
+    <!-- Lista de archivos y carpetas anidados -->
+    <ion-list *ngIf="!file.isFile && isFolderOpened(file)" class="nested-list">
+      <app-file-selector [files]="file?.children || []" (onSelectFile)="onSelectFile.emit($event)"></app-file-selector>
+    </ion-list>
+  </ng-container>
+</ion-list>

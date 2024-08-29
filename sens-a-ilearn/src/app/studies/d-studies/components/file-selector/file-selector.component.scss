@@ -1,0 +1,31 @@
+ion-list {
+  margin: 0;
+  padding: 0;
+}
+
+ion-item {
+  --border-style: none;
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
+  margin: 0;
+  padding: 10px;
+
+  &:hover {
+    background-color: #f1f1f1;
+  }
+
+  ion-icon {
+    margin-right: 10px;
+  }
+
+  ion-checkbox {
+    --color-checked: #3880ff;
+    --color: #ccc;
+  }
+}
+
+.nested-list {
+  margin-left: 20px;
+  border-left: 1px solid #ccc;
+  padding-left: 10px;
+}

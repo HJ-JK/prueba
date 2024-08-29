@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Text Generation</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Close</ion-button> <!-- Botón para cerrar el modal -->
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Área de texto para que el usuario ingrese el contexto -->
+  <ion-item>
+    <ion-textarea 
+      [(ngModel)]="textInput" 
+      auto-grow="true" 
+      rows="1"
+      placeholder="Type a context"
+    ></ion-textarea>
+  </ion-item>
+  
+  <!-- Botón para enviar el texto ingresado a la API -->
+  <ion-button expand="full" (click)="tg(this.textInput)">send</ion-button>
+
+  <!-- Tarjeta para mostrar el texto generado si existe -->
+  <ion-card *ngIf="generatedText" class="generated-text-card">
+    <ion-card-header>
+      <ion-card-title>Generated Text</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ generatedText }}</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

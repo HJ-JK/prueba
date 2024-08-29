@@ -1,0 +1,58 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Voice
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+ 
+  <!-- <ion-button (click)="startRecording()" expand="block">
+    Start
+  </ion-button>
+  <ion-button (click)="stopRecording()" expand="block" color="danger">
+    Stop
+  </ion-button> -->
+
+  <!-- Lista de archivos de audio almacenados -->
+  <ion-list>
+    <ng-container *ngFor="let f of storedFileNames; let i = index">
+      <!-- Elemento de la lista que muestra el nombre del archivo y proporciona opciones para reproducir y eliminar -->
+      <ion-item button (click)="playFile(f.name)" detail="false">
+        {{ f.name }}
+        <ion-button slot="end" (click)="deleteRecording(f.name, $event)" fill="clear" color="danger">
+          <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <!-- Elemento de la lista que muestra la transcripción del archivo correspondiente -->
+      <ion-item>
+        <ion-label>{{ speech[i]?.text }}</ion-label>
+      </ion-item>
+    </ng-container>
+  </ion-list>
+  
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row class="ion-align-items-center">
+      <!-- Columna que muestra un mensaje dependiendo del estado de grabación -->
+      <ion-col size="10">
+        <span *ngIf="!recording">
+          Press and hold to record
+        </span>
+        <span *ngIf="recording">
+          {{ durationDisplay }}
+        </span>
+      </ion-col>
+      <!-- Columna que contiene el botón de grabación -->
+      <ion-col size="2">
+        <ion-button fill="clear" #recordbtn>
+          <ion-icon name="mic-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

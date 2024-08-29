@@ -1,0 +1,8 @@
+{
+  "name": "SensAIlearn",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "dc0acdb0"
+}

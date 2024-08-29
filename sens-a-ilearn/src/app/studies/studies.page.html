@@ -1,0 +1,116 @@
+<ion-app>
+  <!-- Menú lateral para la navegación -->
+  <ion-menu menuId="main-menu" contentId="main-content">
+	<ion-header>
+	  <ion-toolbar>
+		<ion-title>Menu</ion-title>
+	  </ion-toolbar>
+	</ion-header>
+
+	<ion-content class="ion-padding">
+	  <ion-list>
+		<ion-menu-toggle>
+		  <!-- Elementos del menú con enlaces a diferentes secciones -->
+		  <ion-item routerLink="">
+			<ion-icon name="documents" slot="start"></ion-icon>
+			<ion-label>Documents</ion-label>
+		  </ion-item>
+		</ion-menu-toggle>
+		<ion-menu-toggle>
+		  <ion-item routerLink="l-studies">
+			<ion-icon name="mail" slot="start"></ion-icon>
+			<ion-label>L-studies</ion-label>
+		  </ion-item>
+		</ion-menu-toggle>
+		<ion-menu-toggle>
+		  <ion-item (click)="handleClickDStudies()">
+			<ion-icon name="warning" slot="start"></ion-icon>
+			<ion-label>D-studies</ion-label>
+		  </ion-item>
+		</ion-menu-toggle>
+	  </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+
+
+  <div class="ion-page" id="main-content">
+	<ion-header>
+	  <ion-toolbar [color]="copyFile ? 'secondary' : 'primary'">
+		<ion-buttons slot="start">
+			<!-- Botón de menú o botón de retroceso, dependiendo del estado de currentFolder -->
+			<ng-container *ngIf="currentFolder === ''">
+			  <ion-menu-button></ion-menu-button>
+			</ng-container>
+			<ng-container *ngIf="currentFolder !== ''">
+			  <ion-back-button defaultHref="/"></ion-back-button>
+			</ng-container>
+		</ion-buttons>
+		<ion-title> {{ currentFolder || 'Studies' }} </ion-title>
+	  </ion-toolbar>
+	</ion-header>
+	<ion-content class="ion-padding">
+		<!-- Selector de archivos del dispositivo local -->
+		<input hidden type="file" #filepicker (change)="fileSelected($event)" />
+
+		<!-- Mensaje si el directorio está vacío -->
+		<ion-text color="medium" *ngIf="folderContent.length == 0" class="ion-padding ion-text-center">
+			<p>No documents found</p>
+		</ion-text>
+
+		<!-- Lista de archivos y carpetas -->
+		<ion-list>
+			<ion-item-sliding *ngFor="let f of folderContent">
+				<!-- The actual file/folder item with click event -->
+				<ion-item (click)="itemClicked(f)">
+					<ion-icon [name]="f.isFile ? 'document-outline' : 'folder-outline'" slot="start"></ion-icon>
+					{{ f.name }}
+				</ion-item>
+
+				<!-- Opciones de inicio/fin para operaciones de eliminar y copiar -->
+				<ion-item-options side="start">
+					<ion-item-option (click)="delete(f)" color="danger">
+						<ion-icon name="trash" slot="icon-only"></ion-icon>
+					</ion-item-option>
+				</ion-item-options>
+
+				<ion-item-options side="end">
+					<ion-item-option (click)="startCopy(f)" color="success"> Copy </ion-item-option>
+				</ion-item-options>
+			</ion-item-sliding>
+		</ion-list>
+
+		<!-- Botón flotante para operación de pegar -->
+		<ion-fab *ngIf="fileService.copiedFilePath" vertical="bottom" horizontal="end" slot="fixed" style="bottom: 80px">
+			<ion-fab-button (click)="paste()">
+				<ion-icon name="clipboard-outline"></ion-icon>
+			</ion-fab-button>
+		</ion-fab>
+
+		<!-- Botones flotantes para agregar archivos y carpetas -->
+		<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+			<ion-fab-button>
+				<ion-icon name="add"></ion-icon>
+			</ion-fab-button>
+			<ion-fab-list side="top">
+				<ion-fab-button (click)="createFolder()">
+					<ion-icon name="folder"></ion-icon>
+				</ion-fab-button>
+				<ion-fab-button (click)="addFile()">
+					<ion-icon name="document"></ion-icon>
+				</ion-fab-button>
+			</ion-fab-list>
+		</ion-fab>
+
+		<!-- Botón flotante para abrir el modal de generación de texto -->
+		<ion-fab vertical="bottom" horizontal="start" slot="fixed">
+			<ion-fab-button (click)="openTextGenerationModal()">
+				<ion-icon name = create-outline></ion-icon>
+			</ion-fab-button>
+		</ion-fab>
+
+	</ion-content>
+  </div>
+
+</ion-app>
+

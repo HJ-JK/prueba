@@ -1,0 +1,85 @@
+<!-- Menu lateral que se despliega para seleccionar archivos -->
+<ion-menu contentId="file-selector" *ngIf="openMenu" menu-id="file-menu" (ionDidClose)="onCloseMenu()">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Select Files</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <!-- Componente que muestra la lista de archivos y maneja la selección de archivos -->
+    <!-- 4.Vincula el evento del componente hijo con el método del componente padre -->
+    <app-file-selector [files]="fileData" (onSelectFile)="handleSelectedFiles($event)"></app-file-selector>
+  </ion-content>
+</ion-menu>
+
+
+<ion-header>
+  <ion-toolbar>
+    <div class="header-bar">
+      <!-- Botón para regresar a la página anterior -->
+      <ion-buttons (click)="location.back()" slot="start">
+        <ion-icon size="large" name="arrow-back-outline"></ion-icon>
+      </ion-buttons>
+
+      <!-- Selector de sesión -->
+      <ion-select [(ngModel)]="selectedSessionId" (ionChange)="onSessionSelect($event.detail.value)" style="flex: 1;">
+        <!-- Opción para desmarcar sesión actual -->
+        <ion-select-option [value]="''">New session</ion-select-option>
+        <!-- Opciones generadas dinámicamente a partir de la lista de sesiones -->
+        <ion-select-option *ngFor="let sessionid of sessionsid" [value]="sessionid">
+          <ion-item>
+            <ion-label>{{ sessionid }}</ion-label>
+          </ion-item>
+        </ion-select-option>
+      </ion-select>
+
+      <!-- Botón para eliminar la sesión actual -->
+      <ion-button fill="clear" color="danger" (click)="deleteSession(selectedSessionId, $event)" slot="end">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    
+      <!-- Botón para abrir el menú de selección de archivos -->
+      <ion-buttons id="file-selector"  (click)="openFilesDashboard()" slot="start">
+        <ion-icon size="large" name="folder"></ion-icon>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+
+<!-- Contenido principal de la página, con los mensajes del bot y humano -->
+<ion-content>
+  <div class="message-list">
+    <!-- Itera sobre la lista de mensajes y los muestra con una clase según el tipo (humano o bot) -->
+    <div *ngFor="let message of messages" [ngClass]="{'human': message.isHuman, 'bot': !message.isHuman}" class="message-item">
+      <ion-icon [name]="message.isHuman ? 'person-circle' : 'happy'"></ion-icon>
+      <div class="message-content">
+        {{message.message}}
+      </div>
+    </div>
+  </div>
+
+  <!-- Muestra un spinner mientras se está cargando una respuesta -->
+  <ion-spinner *ngIf="loading"></ion-spinner>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-item>
+      <!-- Campo de entrada de texto para escribir nuevos mensajes -->
+      <ion-input [(ngModel)]="newMessage" placeholder="Type a message"></ion-input>
+      
+      <!-- Botón de grabación -->
+      <ion-button fill="clear" #recordbtn class="record-button">
+        <ion-icon name="mic-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+
+      <!-- Botón de envío -->
+      <ion-button [disabled]="loading" (click)="sendMessage()" fill="clear" class="send-button">
+        <ion-icon name="send" slot="icon-only" class="send-icon"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>
+
+

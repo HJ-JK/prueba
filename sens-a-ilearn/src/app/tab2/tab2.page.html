@@ -1,0 +1,28 @@
+
+<ion-header>
+	<ion-toolbar color="primary">
+		<ion-buttons slot="start">
+			<!-- Botón para cerrar sesión -->
+			<ion-button (click)="logout()">
+				<ion-icon slot="icon-only" name="log-out"></ion-icon>
+			</ion-button>
+		</ion-buttons>
+		<ion-title> My Profile </ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+	<div class="preview">
+		<!-- Contenedor del avatar, al hacer clic se ejecuta la función para cambiar la imagen -->
+		<ion-avatar (click)="changeImage()">
+			<!-- Mostrar la imagen del perfil si existe -->
+			<img *ngIf="profile?.['imageUrl']; else placheolder_avatar;" [src]="profile?.['imageUrl']" />
+			<!-- Plantilla alternativa si no hay imagen disponible -->
+			<ng-template #placheolder_avatar>
+				<div class="fallback">
+					<p>Select avatar</p>
+				</div>
+			</ng-template>
+		</ion-avatar>
+	</div>
+</ion-content>
